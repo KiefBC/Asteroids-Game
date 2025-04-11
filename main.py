@@ -1,6 +1,6 @@
 import pygame
 from constants import *
-import player as p1
+from player import Player
 
 def main():
     print("Starting Asteroids!")
@@ -12,10 +12,13 @@ def main():
     clock = pygame.time.Clock()
     dt = 0
 
-    x = SCREEN_WIDTH // 2
-    y = SCREEN_HEIGHT // 2
-    player = p1.player(x, y)
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
 
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player(x, y)
 
     while True:
         # Enables the Close Window Button
@@ -23,9 +26,12 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        player.update(dt)
+        updatable.update(dt)
         screen.fill((0, 0, 0))
-        player.draw(screen)
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip() # This line updates the display
 
         # Limit the frame rate to 60 FPS

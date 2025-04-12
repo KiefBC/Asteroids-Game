@@ -1,8 +1,10 @@
 import pygame
+import sys
 from asteroid import Asteroid
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from player import Player
 from asteroid_field import AsteroidField
+from shot import Shot
 
 def main():
     print("Starting Asteroids!")
@@ -17,14 +19,17 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
+
     Player.containers = (updatable, drawable)
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
+    Shot.containers = (shots, updatable, drawable)
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
-    asteroidfield = AsteroidField()
+    asteroid_field = AsteroidField()
 
     while True:
         # Enables the Close Window Button
@@ -33,6 +38,12 @@ def main():
                 return
 
         updatable.update(dt)
+
+        for asteroid in asteroids:
+            if asteroid.collisionCheck(player):
+                print("Game Over!")
+                sys.exit(0)
+
         screen.fill((0, 0, 0))
 
         for obj in drawable:

@@ -1,6 +1,8 @@
 import pygame
-from constants import *
+from asteroid import Asteroid
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from player import Player
+from asteroid_field import AsteroidField
 
 def main():
     print("Starting Asteroids!")
@@ -14,11 +16,15 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = (updatable)
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
+    asteroidfield = AsteroidField()
 
     while True:
         # Enables the Close Window Button

@@ -29,7 +29,7 @@ def main():
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
-    asteroid_field = AsteroidField()
+    AsteroidField()
 
     while True:
         # Enables the Close Window Button
@@ -43,6 +43,11 @@ def main():
             if asteroid.collisionCheck(player):
                 print("Game Over!")
                 sys.exit(0)
+
+            for shot in shots:
+                if shot.collisionCheck(asteroid):
+                    asteroid.split()
+                    shot.kill()
 
         screen.fill((0, 0, 0))
 

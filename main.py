@@ -8,6 +8,11 @@ from shot import Shot
 from particle import Particle
 
 def main():
+    """
+    Run the main game loop for the Asteroids game, handling initialization, event processing, updates, collision detection, scoring, rendering, and frame rate control.
+    
+    This function sets up the game environment, manages sprite groups, processes user and system events, updates all game objects, checks for collisions between the player, asteroids, and shots, updates the score, renders the game state to the screen, and maintains a consistent frame rate. The game loop continues until the player closes the window or collides with an asteroid, at which point the game ends.
+    """
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")

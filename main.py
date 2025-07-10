@@ -5,6 +5,7 @@ from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCORE_LARGE_ASTEROID, SCORE_M
 from player import Player
 from asteroid_field import AsteroidField
 from shot import Shot
+from particle import Particle
 
 def main():
     print("Starting Asteroids!")
@@ -25,6 +26,7 @@ def main():
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = updatable
     Shot.containers = (shots, updatable, drawable)
+    Particle.containers = (updatable, drawable)
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2

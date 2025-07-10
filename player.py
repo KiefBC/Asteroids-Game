@@ -1,7 +1,16 @@
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_SHOOT_COOLDOWN, PLAYER_SHOOT_SPEED, PLAYER_TURN_SPEED, PLAYER_SPEED, SHOT_RADIUS
+from constants import (
+    PLAYER_RADIUS,
+    PLAYER_SHOOT_COOLDOWN,
+    PLAYER_SHOOT_SPEED,
+    PLAYER_TURN_SPEED,
+    PLAYER_SPEED,
+    SHOT_RADIUS,
+    THRUSTER_PARTICLE_SPEED,
+)
 import pygame
 from shot import Shot
+from particle import Particle
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -9,6 +18,19 @@ class Player(CircleShape):
         self.rotation = 0
         self.position = pygame.Vector2(x, y)
         self.shoot_timer = 0
+
+    def engine_position(self):
+        """Return the position at the rear of the ship where engine particles
+        should originate."""
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        return self.position - forward * self.radius
+
+    def emit_engine_particle(self):
+        """Spawn a particle at the ship's engine."""
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        velocity = -forward * THRUSTER_PARTICLE_SPEED
+        pos = self.engine_position()
+        Particle(pos.x, pos.y, velocity=velocity)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -34,6 +56,7 @@ class Player(CircleShape):
             self.rotate(dt)
         if keys[pygame.K_w]:
             self.move(dt)
+            self.emit_engine_particle()
         if keys[pygame.K_s]:
             self.move(-dt)
         if keys[pygame.K_SPACE]:
